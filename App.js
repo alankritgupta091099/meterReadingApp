@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import Login from './screens/Login';
 
 function HomeScreen(){
   return (
@@ -19,7 +20,7 @@ function App() {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Secio" component={HomeScreen} />
+        <Tab.Screen name="Login" component={Login} />
       </Tab.Navigator>
     </NavigationContainer>
   );
