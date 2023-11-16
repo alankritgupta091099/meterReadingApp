@@ -4,7 +4,8 @@ import { SafeAreaView, View, Text } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
 
-const Login = ({navigation}) => {
+const Login = ({navigation, route}) => {
+  const { setUserToken } = route.params;
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
       <View style={{paddingHorizontal: 25}}>
@@ -32,7 +33,7 @@ const Login = ({navigation}) => {
           fieldButtonFunction={() => {}}
         />
         
-        <CustomButton label={"Login"} onPress={() => {}} />
+        <CustomButton label={"Login"} onPress={() => {setUserToken('token')}} />
       </View>
     </SafeAreaView>
   );
