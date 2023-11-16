@@ -3,15 +3,8 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import HomeScreen from './screens/HomeScreen'
 import Login from './screens/Login';
-
-function HomeScreen(){
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
 
 function App() {
   const Tab = createBottomTabNavigator();
