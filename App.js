@@ -1,5 +1,4 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState, createContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,29 +11,33 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function App() {
-  const [userToken, setUserToken] = React.useState(null);
+  const [UserID, setUserID] = useState("");
+  const [Pwd, setPwd] = useState("");
+  const UserContext = createContext();
 
   return (
-    <NavigationContainer>
-      {
-        userToken == null ? (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="SignIn"
-            component={Login}
-            options={{
-              title: 'Sign in',
-            }}
-            initialParams={{ setUserToken }}
-          />
-        </Stack.Navigator>
-      ) : (
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeScreen} />
-        </Tab.Navigator>
-      )
-      }      
-    </NavigationContainer>
+    <UserContext.Provider value={{UserID, Pwd}} >
+      <NavigationContainer>
+        {
+          (UserID == "" || Pwd == "") ? (
+          <Stack.Navigator>
+            <Stack.Screen
+              name="SignIn"
+              component={Login}
+              options={{
+                title: 'Sign in',
+              }}
+              initialParams={{ setUserID, setPwd }}
+            />
+          </Stack.Navigator>
+        ) : (
+          <Tab.Navigator>
+            <Tab.Screen name="Home" component={HomeScreen} />
+          </Tab.Navigator>
+        )
+        }      
+      </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 

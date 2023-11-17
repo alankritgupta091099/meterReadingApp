@@ -5,7 +5,7 @@ import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
 
 const Login = ({navigation, route}) => {
-  const { setUserToken } = route.params;
+  const { setUserID, setPwd } = route.params;
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
       <View style={{paddingHorizontal: 25}}>
@@ -33,7 +33,13 @@ const Login = ({navigation, route}) => {
           fieldButtonFunction={() => {}}
         />
         
-        <CustomButton label={"Login"} onPress={() => {setUserToken('token')}} />
+        <CustomButton 
+          label={"Login"} 
+          onPress={() => {
+            setUserID("user")
+            setPwd("pwd")
+          }} 
+        />
       </View>
     </SafeAreaView>
   );
