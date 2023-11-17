@@ -3,7 +3,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from './screens/HomeScreen'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import GetMeterReading from './screens/GetMeterReading';
+import SubmitMeterReading from './screens/SubmitMeterReading';
+import UserAccount from './screens/UserAccount';
 import Login from './screens/Login';
 
 
@@ -33,7 +38,36 @@ function App() {
           </Stack.Navigator>
         ) : (
           <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen 
+              name="Check Reading" 
+              component={GetMeterReading} 
+              options={{
+                tabBarLabel: 'View Readings',
+                tabBarIcon: ({color, size}) => (
+                  <MaterialCommunityIcons name="information" size={size} color={color} />
+                ),
+              }}
+            />
+            <Tab.Screen 
+              name="Submit Reading" 
+              component={SubmitMeterReading} 
+              options={{
+                tabBarLabel: 'View Readings',
+                tabBarIcon: ({color, size}) => (
+                  <MaterialCommunityIcons name="clipboard-list-outline" size={size} color={color} />
+                ),
+              }}
+            />
+            <Tab.Screen 
+              name="Account Settings" 
+              component={UserAccount} 
+              options={{
+                tabBarLabel: 'Account',
+                tabBarIcon: ({color, size}) => (
+                  <FontAwesome name="user-o" size={size} color={color} />
+                ),
+              }}
+            />
           </Tab.Navigator>
         )
         }      
