@@ -26,6 +26,7 @@ function App() {
               component={Login}
               options={{
                 title: 'Sign in',
+                headerShown: false
               }}
               initialParams={{ setUserID, setPwd }}
             />
