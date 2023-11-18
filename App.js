@@ -1,10 +1,12 @@
-import React, { useState, createContext } from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import { UserContext } from './context/userContext';
 
 import GetMeterReading from './screens/GetMeterReading';
 import SubmitMeterReading from './screens/SubmitMeterReading';
@@ -18,10 +20,9 @@ const Stack = createStackNavigator();
 function App() {
   const [UserID, setUserID] = useState("");
   const [Pwd, setPwd] = useState("");
-  const UserContext = createContext();
-
+  
   return (
-    <UserContext.Provider value={{UserID, Pwd}} >
+    <UserContext.Provider value={{UserID, Pwd, setUserID, setPwd}} >
       <NavigationContainer>
         {
           (UserID == "" || Pwd == "") ? (

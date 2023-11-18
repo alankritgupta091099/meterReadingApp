@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { SafeAreaView, View, Text } from 'react-native';
+
+import { BASE_URL, LOGIN } from '../util/apiRoutes';
 
 import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
 
-const Login = ({navigation, route}) => {
+const Login = ({route}) => {
+
   const { setUserID, setPwd } = route.params;
+
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+
+  const submitLogIn = () => {
+    axios.post(BASE_URL + LOGIN, {
+      UserID: user,
+      Pwd: password
+    })
+    .then(function (res) {
+      console.log(res.data.d)
+      if(res.data.d.Status == "Y") { 
+        setUserID(user);
+        setPwd(password);
+      } else {
+        // show error notification
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  };
+
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
       <View style={{paddingHorizontal: 25}}>
@@ -22,23 +49,21 @@ const Login = ({navigation, route}) => {
         </Text>
 
         <InputField
-          label={'Email ID'}
+          label={'User ID'}
           keyboardType="email-address"
+          onChangeText={(val)=>setUser(val)}
         />
 
         <InputField
           label={'Password'}
           inputType="password"
           fieldButtonLabel={"Forgot?"}
-          fieldButtonFunction={() => {}}
+          onChangeText={(val)=>setPassword(val)}
         />
         
         <CustomButton 
           label={"Login"} 
-          onPress={() => {
-            setUserID("user")
-            setPwd("pwd")
-          }} 
+          onPress={submitLogIn} 
         />
       </View>
     </SafeAreaView>
