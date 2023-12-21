@@ -21,6 +21,10 @@ export default function InputField({
       }}>
       {icon}
       {inputType == 'password' ? (
+        <>
+        {
+          icon ?  <></> : <Text style={{marginTop:5}}>{label}: </Text>
+        }
         <TextInput
           placeholder={label}
           keyboardType={keyboardType}
@@ -28,13 +32,19 @@ export default function InputField({
           secureTextEntry={true}
           onChangeText={onChangeText}
         />
+        </>
       ) : (
+        <>
+        {
+          icon ?  <></> : <Text style={{marginTop:5}}>{label}: </Text>
+        }
         <TextInput
           placeholder={label}
           keyboardType={keyboardType}
           style={{flex: 1, paddingVertical: 0}}
           onChangeText={onChangeText}
         />
+        </>
       )}
       <TouchableOpacity onPress={fieldButtonFunction}>
         <Text style={{color: '#AD40AF', fontWeight: '700'}}>{fieldButtonLabel}</Text>

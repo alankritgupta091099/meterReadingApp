@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { SafeAreaView, View, Text } from 'react-native';
 
@@ -7,12 +7,14 @@ import { BASE_URL, LOGIN } from '../util/apiRoutes';
 import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
 
-const Login = ({route}) => {
+import { UserContext } from '../context/userContext';
 
-  const { setUserID, setPwd } = route.params;
+const Login = () => {
 
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const { setUserID, setPwd } = useContext(UserContext);
+
+  const [user, setUser] = useState("admin");
+  const [password, setPassword] = useState("asg-123");
 
   const submitLogIn = () => {
     axios.post(BASE_URL + LOGIN, {
@@ -20,7 +22,6 @@ const Login = ({route}) => {
       Pwd: password
     })
     .then(function (res) {
-      console.log(res.data.d)
       if(res.data.d.Status == "Y") { 
         setUserID(user);
         setPwd(password);

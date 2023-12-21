@@ -34,7 +34,6 @@ function App() {
                 title: 'Sign in',
                 headerShown: false
               }}
-              initialParams={{ setUserID, setPwd }}
             />
           </Stack.Navigator>
         ) : (
@@ -44,6 +43,7 @@ function App() {
               component={GetMeterReading} 
               options={{
                 tabBarLabel: 'View Readings',
+                headerShown: false,
                 tabBarIcon: ({color, size}) => (
                   <MaterialCommunityIcons name="information" size={size} color={color} />
                 ),
@@ -53,7 +53,7 @@ function App() {
               name="Submit Reading" 
               component={SubmitMeterReading} 
               options={{
-                tabBarLabel: 'View Readings',
+                tabBarLabel: 'Submit Readings',
                 tabBarIcon: ({color, size}) => (
                   <MaterialCommunityIcons name="clipboard-list-outline" size={size} color={color} />
                 ),
@@ -64,6 +64,7 @@ function App() {
               component={UserAccount} 
               options={{
                 tabBarLabel: 'Account',
+                headerShown: false,
                 tabBarIcon: ({color, size}) => (
                   <FontAwesome name="user-o" size={size} color={color} />
                 ),
