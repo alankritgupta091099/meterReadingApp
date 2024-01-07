@@ -11,6 +11,7 @@ import { BASE_URL, GET_METER_READING } from '../util/apiRoutes';
 
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
+import SubmitReadingModal from '../components/SubmitReadingModal';
 // import ShowAlert from '../components/Alert';
 
 import { UserContext } from '../context/userContext';
@@ -22,9 +23,10 @@ function GetMeterReading({navigation}){
     const [projectName, setprojectName] = useState("804");
     const [unitNo, setunitNo] = useState("01-102");
     const [customer, setcustomer] = useState("R0019");
-    const [meterNo, setmeterNo] = useState("10367276");
+    const [meterNo, setmeterNo] = useState("SS-10367276");
 
     const [displayData, setdisplayData] = useState(null);
+    const [showModal, setshowModal] = useState(false);
 
     const resetFormData = () => {
         setprojectName("");
@@ -44,7 +46,7 @@ function GetMeterReading({navigation}){
             MeterNo: meterNo
           })
           .then(function (res) {
-            if(new String(res.data.d.Status).valueOf() == "false") { 
+            if(new String(res.data.d.Status).valueOf() == "true") { 
                 setdisplayData(res.data.d);
             } else {
               // show error notification
@@ -86,9 +88,10 @@ function GetMeterReading({navigation}){
             {/* <ShowAlert msg={"Validation Required"} title={"Error"}  cancelAction={()=>{}}/> */}
             {
                 displayData ? 
-                <View>
+                <ScrollView>                
+                    <View>
                     <Text>Transaction No.: {displayData.TransactionNo}</Text>
-                    <Text>Customer: {displayData.CustomerName} ({displayData.CustomerCode})</Text>
+                    <Text>Customer: {displayData.CustomerName} ({displayData.CustCode})</Text>
                     <Text>Meter No.: {displayData.MeterNo}</Text>
                     <Text>Unit No.: {displayData.UnitNo}</Text>
                     <Text>Previous reading Date: {displayData.PreviousReadingDate}</Text>
@@ -101,9 +104,16 @@ function GetMeterReading({navigation}){
                     <Text>Cycle: {displayData.Cycle}</Text>
                     <Text>Billing Month: {displayData.BillingMonth}</Text>
                     <Text>Sanction Load: {displayData.SanctionLoad}</Text>
-                    <Text>Actual Load: {displayData.ActualLoad}</Text>
-                </View> : <></>
+                    <Text>Actual Load: {displayData.ActualLoad}</Text>                    
+                    </View> 
+                    <View style={{ marginVertical:'4%'}}>
+                        <CustomButton label={'Submit'} onPress={()=>setshowModal(true)} />
+                    </View>
+                </ScrollView>: <></>
             }
+            {
+                showModal ? <SubmitReadingModal showModal={showModal} setshowModal={setshowModal} displayData={displayData}/> : <></>
+            }            
         </ScrollView>
     </SafeAreaView>
     );

@@ -3,3 +3,4 @@ export const BASE_URL = 'http://182.76.38.60/WebMaintenance/Services/MobileAPI.a
 // routes
 export const LOGIN = '/Login';
 export const GET_METER_READING = '/GetMeterReading';
+export const POST_METER_READING = '/PostMeterReading'
