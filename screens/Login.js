@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { SafeAreaView, View, Text } from 'react-native';
+import { encode } from "base-64";
 
 import { BASE_URL, LOGIN } from '../util/apiRoutes';
 
@@ -17,12 +18,15 @@ const Login = () => {
   const [password, setPassword] = useState("asg-123");
 
   const submitLogIn = () => {
-    axios.post(BASE_URL + LOGIN, {
-      UserID: user,
-      Pwd: password
+    const token = encode(`${user}:${password}`);
+    console.log(token);
+    axios.get(BASE_URL + LOGIN, {
+      headers: {
+        Authorization: `Basic ${token}`,
+      }
     })
     .then(function (res) {
-      if(res.data.d.Status == "Y") { 
+      if(res.data.Status == "Y") { 
         setUserID(user);
         setPwd(password);
       } else {
