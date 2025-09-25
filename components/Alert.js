@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { showMessage, hideMessage } from 'react-native-flash-message';
 
 export function showAlert({ title, message, onOk, buttonText = 'OK' }) {
@@ -18,7 +17,7 @@ export function showError(message, title = 'Error', buttonText = 'OK') {
     description: message,
     type: 'danger',
     icon: 'danger',
-    duration: 5000,
+    duration: 2000,
   });
 }
 
@@ -28,12 +27,11 @@ export function showSuccess(message, title = 'Success', onOk, buttonText = 'OK')
     description: message,
     type: 'success',
     icon: 'success',
-    duration: 2000,
+    duration: 1000,
     onPress: typeof onOk === 'function' ? onOk : undefined,
   });
 }
 
-// Additional utility functions
 export function showWarning(message, title = 'Warning') {
   showMessage({
     message: title,

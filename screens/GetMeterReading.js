@@ -12,7 +12,6 @@ import { BASE_URL, GET_METER_READING } from '../util/apiRoutes';
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 import SubmitReadingModal from '../components/SubmitReadingModal';
-// import ShowAlert from '../components/Alert';
 
 import { UserContext } from '../context/userContext';
 
