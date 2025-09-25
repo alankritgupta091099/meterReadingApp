@@ -7,6 +7,7 @@ import { BASE_URL, LOGIN } from '../util/apiRoutes';
 
 import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
+import { showError, showSuccess } from '../components/Alert';
 
 import { UserContext } from '../context/userContext';
 
@@ -19,7 +20,6 @@ const Login = () => {
 
   const submitLogIn = () => {
     const token = encode(`${user}:${password}`);
-    console.log(token);
     axios.get(BASE_URL + LOGIN, {
       headers: {
         Authorization: `Basic ${token}`,
@@ -29,12 +29,15 @@ const Login = () => {
       if(res.data.Status == "Y") { 
         setUserID(user);
         setPwd(password);
+        showSuccess('Logged in successfully.');
       } else {
-        // show error notification
+        const message = res?.data?.Message || 'Invalid credentials. Please try again.';
+        showError(message);
       }
     })
     .catch(function (error) {
-      console.log(error);
+      const message = error?.response?.data?.Message || 'Unable to login. Please check your network and try again.';
+      showError(message);
     });
   };
 

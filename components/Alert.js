@@ -1,20 +1,59 @@
-import React from 'react';
-import {View, StyleSheet, Button, Alert} from 'react-native';
+import { Alert } from 'react-native';
+import { showMessage, hideMessage } from 'react-native-flash-message';
 
-export default function ShowAlert ({
-    title,
-    msg,
-    cancelAction
-}) {
-  return (Alert.alert(
-    {title},
-    {msg},
-    [
-      {
-        text: 'Cancel',
-        onPress: {cancelAction},
-        style: 'cancel',
-      },
-    ]
-  ));
+export function showAlert({ title, message, onOk, buttonText = 'OK' }) {
+  showMessage({
+    message: title || 'Notice',
+    description: message || '',
+    type: 'info',
+    icon: 'info',
+    duration: 4000,
+    onPress: typeof onOk === 'function' ? onOk : undefined,
+  });
+}
+
+export function showError(message, title = 'Error', buttonText = 'OK') {
+  showMessage({
+    message: title,
+    description: message,
+    type: 'danger',
+    icon: 'danger',
+    duration: 5000,
+  });
+}
+
+export function showSuccess(message, title = 'Success', onOk, buttonText = 'OK') {
+  showMessage({
+    message: title,
+    description: message,
+    type: 'success',
+    icon: 'success',
+    duration: 2000,
+    onPress: typeof onOk === 'function' ? onOk : undefined,
+  });
+}
+
+// Additional utility functions
+export function showWarning(message, title = 'Warning') {
+  showMessage({
+    message: title,
+    description: message,
+    type: 'warning',
+    icon: 'warning',
+    duration: 4000,
+  });
+}
+
+export function showInfo(message, title = 'Info') {
+  showMessage({
+    message: title,
+    description: message,
+    type: 'info',
+    icon: 'info',
+    duration: 3000,
+  });
+}
+
+export function hideAllMessages() {
+  hideMessage();
 }

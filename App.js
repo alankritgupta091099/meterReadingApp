@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import FlashMessage from 'react-native-flash-message';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -74,6 +75,7 @@ function App() {
         )
         }      
       </NavigationContainer>
+      <FlashMessage position="bottom" />
     </UserContext.Provider>
   );
 }
