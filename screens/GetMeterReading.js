@@ -6,8 +6,8 @@ import {
   View,
 } from 'react-native';
 import axios from 'axios';
-import { Buffer } from "buffer";
 import { BASE_URL, GET_METER_READING } from '../util/apiRoutes';
+import { useAuthHeader } from '../util/tokenHelper';
 
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
@@ -18,8 +18,7 @@ import { UserContext } from '../context/userContext';
 function GetMeterReading({navigation}){
 
     const user = useContext(UserContext);
-
-    const token = Buffer.from(`${user.UserID}:${user.Pwd}`).toString("base64");
+    const authHeader = useAuthHeader();
     const [projectName, setprojectName] = useState("805");
     const [unitNo, setunitNo] = useState("01-501");
     const [customer, setcustomer] = useState("A0041");
@@ -38,9 +37,7 @@ function GetMeterReading({navigation}){
 
     const submitGetValue = () => {
         axios.get(BASE_URL + GET_METER_READING, {
-            headers: {
-                Authorization: `Basic ${token}`,
-            },
+            headers: authHeader,
             params: {
                 ProjectName: projectName,
                 UnitNo: unitNo,
