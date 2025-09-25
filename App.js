@@ -10,7 +10,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { UserContext } from './context/userContext';
 
 import GetMeterReading from './screens/GetMeterReading';
-import SubmitMeterReading from './screens/SubmitMeterReading';
 import UserAccount from './screens/UserAccount';
 import Login from './screens/Login';
 
@@ -47,16 +46,6 @@ function App() {
                 headerShown: false,
                 tabBarIcon: ({color, size}) => (
                   <MaterialCommunityIcons name="information" size={size} color={color} />
-                ),
-              }}
-            />
-            <Tab.Screen 
-              name="Submit Reading" 
-              component={SubmitMeterReading} 
-              options={{
-                tabBarLabel: 'Submit Readings',
-                tabBarIcon: ({color, size}) => (
-                  <MaterialCommunityIcons name="clipboard-list-outline" size={size} color={color} />
                 ),
               }}
             />
