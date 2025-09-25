@@ -8,6 +8,7 @@ import { BASE_URL, LOGIN } from '../util/apiRoutes';
 import CustomButton from '../components/CustomButton';
 import InputField from '../components/InputField';
 import { showError, showSuccess } from '../components/Alert';
+import Loader from '../components/Loader';
 
 import { UserContext } from '../context/userContext';
 
@@ -17,8 +18,10 @@ const Login = () => {
 
   const [user, setUser] = useState("admin");
   const [password, setPassword] = useState("asg-123");
+  const [loading, setLoading] = useState(false);
 
   const submitLogIn = () => {
+    setLoading(true);
     const token = encode(`${user}:${password}`);
     axios.get(BASE_URL + LOGIN, {
       headers: {
@@ -38,6 +41,9 @@ const Login = () => {
     .catch(function (error) {
       const message = error?.response?.data?.Message || 'Unable to login. Please check your network and try again.';
       showError(message);
+    })
+    .finally(() => {
+      setLoading(false);
     });
   };
 
@@ -74,6 +80,7 @@ const Login = () => {
           onPress={submitLogIn} 
         />
       </View>
+      <Loader visible={loading} text="Logging in..." />
     </SafeAreaView>
   );
 };

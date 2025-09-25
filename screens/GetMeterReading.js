@@ -12,6 +12,7 @@ import { useAuthHeader } from '../util/tokenHelper';
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 import SubmitReadingModal from '../components/SubmitReadingModal';
+import Loader from '../components/Loader';
 
 import { UserContext } from '../context/userContext';
 
@@ -26,6 +27,7 @@ function GetMeterReading({navigation}){
 
     const [displayData, setdisplayData] = useState(null);
     const [showModal, setshowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const resetFormData = () => {
         setprojectName("");
@@ -36,6 +38,7 @@ function GetMeterReading({navigation}){
     }
 
     const submitGetValue = () => {
+        setLoading(true);
         axios.get(BASE_URL + GET_METER_READING, {
             headers: authHeader,
             params: {
@@ -57,6 +60,9 @@ function GetMeterReading({navigation}){
           })
           .catch(function (error) {
             console.log(error);
+          })
+          .finally(() => {
+            setLoading(false);
           });
     }
     return (
@@ -116,6 +122,7 @@ function GetMeterReading({navigation}){
                 showModal ? <SubmitReadingModal showModal={showModal} setshowModal={setshowModal} displayData={displayData}/> : <></>
             }            
         </ScrollView>
+        <Loader visible={loading} text="Fetching meter reading..." />
     </SafeAreaView>
     );
 }
