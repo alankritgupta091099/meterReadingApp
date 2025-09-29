@@ -23,7 +23,7 @@ function GetMeterReading({navigation}){
     const authHeader = useAuthHeader();
     const [projectName, setprojectName] = useState("805");
     const [unitNo, setunitNo] = useState("01-501");
-    const [customer, setcustomer] = useState("A0041");
+    const [customer, setcustomer] = useState("A0042");
     const [meterNo, setmeterNo] = useState("UPB-51961");
 
     const [displayData, setdisplayData] = useState(null);

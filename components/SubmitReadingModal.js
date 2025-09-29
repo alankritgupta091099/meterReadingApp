@@ -1,49 +1,52 @@
 import React, { useState, useContext } from 'react';
-import { Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-
+import { Modal, StyleSheet, Text, Pressable, View, ScrollView} from 'react-native';
+import axios from 'axios';
 import { BASE_URL, POST_METER_READING } from '../util/apiRoutes';
+import { useAuthHeader } from '../util/tokenHelper';
+import { showError, showSuccess } from '../components/Alert';
 
 import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
-
-import { UserContext } from '../context/userContext';
 
 var moment = require('moment'); 
 
 const SubmitReadingModal = ({showModal, setshowModal, displayData}) => {
 
-  const user = useContext(UserContext);
+  const authHeader = useAuthHeader();
 
   const [currentReading, setcurrentReading] = useState("");
 
   const submitPostValue = () => {
-    if(!displayData.TransactionNo || !displayData.PreviousReadingDate || currentReading == ""){
+    if(!displayData.TransactionNo || currentReading == ""){
         // error handling
         console.log("missing information")
         return;
     }
     
-    axios.post(BASE_URL + POST_METER_READING, {
-        UserID: user.UserID,
-        Pwd: user.Pwd,
-        TransationNo:displayData.TransactionNo,
-        PreviousReading: displayData.PreviousReading,
+    axios.post(
+      BASE_URL + POST_METER_READING,
+      {
+        TransactionNo: displayData.TransactionNo,
         CurrentReading: currentReading,
-        PreviousReadingDate: displayData.PreviousReadingDate,
         CurrentReadingDate: moment().format('YYYY-MM-DD'),
-        BillingMonth: moment().month(),
-        FileName:"",
-        ImgByte:""
-      })
+      },
+      { headers: authHeader }
+    )
       .then(function (res) {
-        if(new String(res.data.d.Status).valueOf() == "true") { 
-            setdisplayData(res.data.d);
+        console.log(res.data);
+        if(new String(res.data.Status).valueOf() == "true") { 
+            showSuccess('Reading submitted successfully.');
+            setshowModal(false);
         } else {
-          // show error notification
+          const message = res?.data?.Message || 'Something went wrong';
+          showError(message);
+          setshowModal(false);
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error)
+        const message = error?.response?.data?.Message || 'Something went wrong';
+        showError(message);
       });
 }
 
@@ -68,6 +71,19 @@ const SubmitReadingModal = ({showModal, setshowModal, displayData}) => {
                 }}>
                 Submit Meter Reading
                 </Text>
+
+                <View style={styles.detailsContainer}>
+                    <Text style={styles.detailText}>Transaction No.: {displayData.TransactionNo}</Text>
+                    <Text style={styles.detailText}>Customer: {displayData.CustomerName} ({displayData.CustCode})</Text>
+                    <Text style={styles.detailText}>Meter No.: {displayData.MeterNo}</Text>
+                    <Text style={styles.detailText}>Unit No.: {displayData.UnitNo}</Text>
+                    <Text style={styles.detailText}>Previous reading Date: {displayData.PreviousReadingDate}</Text>
+                    <Text style={styles.detailText}>Previous reading: {displayData.PreviousReading}</Text>
+                    <Text style={styles.detailText}>Multi Fact: {displayData.MultiFact}</Text>
+                    <Text style={styles.detailText}>Cycle: {displayData.Cycle}</Text>
+                    <Text style={styles.detailText}>Actual Load: {displayData.ActualLoad}</Text>
+                    <Text style={styles.detailText}>Current reading Date: {moment().format('YYYY-MM-DD')}</Text>
+                </View>
 
                 <InputField label={'Current Reading * '} keyboardType={'numeric'} onChangeText={(val)=>setcurrentReading(val)} />
                 <View  style={styles.buttonContainer}>
@@ -142,6 +158,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
+  },
+  detailsContainer: {
+    width: '100%',
+  },
+  detailTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 8,
+  },
+  detailText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 4,
+    lineHeight: 20,
   },
 });
 
