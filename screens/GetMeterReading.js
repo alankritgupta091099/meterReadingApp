@@ -13,6 +13,7 @@ import InputField from '../components/InputField';
 import CustomButton from '../components/CustomButton';
 import SubmitReadingModal from '../components/SubmitReadingModal';
 import Loader from '../components/Loader';
+import { showWarning, showError } from '../components/Alert';
 
 import { UserContext } from '../context/userContext';
 
@@ -52,14 +53,14 @@ function GetMeterReading({navigation}){
             console.log(res.data);
             if(new String(res.data.Status).valueOf() == "true") { 
                 setdisplayData(res.data);
+                setshowModal(true);
             } else {
-              // show error notification
-
-              
+                showWarning(res.data.Message);
             }
           })
           .catch(function (error) {
-            console.log(error);
+            const message = error?.data?.Message || 'Something went wrong';
+            showError(message);
           })
           .finally(() => {
             setLoading(false);
@@ -92,32 +93,6 @@ function GetMeterReading({navigation}){
                 
                 <CustomButton label={displayData ? 'Reset' : 'Get value'} onPress={()=>{ displayData ? resetFormData() : submitGetValue() }} />
             </View>
-            {/* <ShowAlert msg={"Validation Required"} title={"Error"}  cancelAction={()=>{}}/> */}
-            {
-                displayData ? 
-                <ScrollView>                
-                    <View>
-                    <Text>Transaction No.: {displayData.TransactionNo}</Text>
-                    <Text>Customer: {displayData.CustomerName} ({displayData.CustCode})</Text>
-                    <Text>Meter No.: {displayData.MeterNo}</Text>
-                    <Text>Unit No.: {displayData.UnitNo}</Text>
-                    <Text>Previous reading Date: {displayData.PreviousReadingDate}</Text>
-                    <Text>Current reading Date: {displayData.CurrentReadingDate}</Text>
-                    <Text>Previous reading: {displayData.PreviousReading}</Text>
-                    <Text>Current reading: {displayData.CurrentReading}</Text>
-                    <Text>Total Units Consumed: {displayData.TotalUnitCosumed}</Text>
-                    <Text>CT Fact: {displayData.CTFact}</Text>
-                    <Text>Multi Fact: {displayData.MultiFact}</Text>
-                    <Text>Cycle: {displayData.Cycle}</Text>
-                    <Text>Billing Month: {displayData.BillingMonth}</Text>
-                    <Text>Sanction Load: {displayData.SanctionLoad}</Text>
-                    <Text>Actual Load: {displayData.ActualLoad}</Text>                    
-                    </View> 
-                    <View style={{ marginVertical:'4%'}}>
-                        <CustomButton label={'Submit'} onPress={()=>setshowModal(true)} />
-                    </View>
-                </ScrollView>: <></>
-            }
             {
                 showModal ? <SubmitReadingModal showModal={showModal} setshowModal={setshowModal} displayData={displayData}/> : <></>
             }            

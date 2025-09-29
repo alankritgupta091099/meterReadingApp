@@ -38,7 +38,7 @@ export function showWarning(message, title = 'Warning') {
     description: message,
     type: 'warning',
     icon: 'warning',
-    duration: 4000,
+    duration: 2000,
   });
 }
 
