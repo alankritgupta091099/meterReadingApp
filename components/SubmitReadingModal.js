@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Modal, StyleSheet, Text, Pressable, View, ScrollView} from 'react-native';
 import axios from 'axios';
 import { BASE_URL, POST_METER_READING } from '../util/apiRoutes';
@@ -14,13 +14,25 @@ const SubmitReadingModal = ({showModal, setshowModal, displayData}) => {
 
   const authHeader = useAuthHeader();
 
-  const [currentReading, setcurrentReading] = useState("");
+  const [currentReading, setcurrentReading] = useState(displayData.CurrentReading || 0);
 
   const submitPostValue = () => {
-    if(!displayData.TransactionNo || currentReading == ""){
+    let message = 'Something went wrong';
+
+    if(!displayData.TransactionNo){
         // error handling
-        console.log("missing information")
+        message = "Transaction Number not found";
+        showError(message);
         return;
+    }
+
+    if(currentReading == 0) {
+      message = "Current reading can not be 0";
+
+      console.log(message);
+
+      showError(message);
+      return;
     }
     
     axios.post(
@@ -40,7 +52,6 @@ const SubmitReadingModal = ({showModal, setshowModal, displayData}) => {
         } else {
           const message = res?.data?.Message || 'Something went wrong';
           showError(message);
-          setshowModal(false);
         }
       })
       .catch(function (error) {
@@ -77,15 +88,20 @@ const SubmitReadingModal = ({showModal, setshowModal, displayData}) => {
                     <Text style={styles.detailText}>Customer: {displayData.CustomerName} ({displayData.CustCode})</Text>
                     <Text style={styles.detailText}>Meter No.: {displayData.MeterNo}</Text>
                     <Text style={styles.detailText}>Unit No.: {displayData.UnitNo}</Text>
-                    <Text style={styles.detailText}>Previous reading Date: {displayData.PreviousReadingDate}</Text>
-                    <Text style={styles.detailText}>Previous reading: {displayData.PreviousReading}</Text>
                     <Text style={styles.detailText}>Multi Fact: {displayData.MultiFact}</Text>
                     <Text style={styles.detailText}>Cycle: {displayData.Cycle}</Text>
                     <Text style={styles.detailText}>Actual Load: {displayData.ActualLoad}</Text>
+                    <Text style={styles.detailText}>Previous reading Date: {displayData.PreviousReadingDate}</Text>
+                    <Text style={styles.detailText}>Previous reading: {displayData.PreviousReading}</Text>
                     <Text style={styles.detailText}>Current reading Date: {moment().format('YYYY-MM-DD')}</Text>
                 </View>
 
-                <InputField label={'Current Reading * '} keyboardType={'numeric'} onChangeText={(val)=>setcurrentReading(val)} />
+                <InputField 
+                  label={'Current Reading * '}
+                  keyboardType={'numeric'} 
+                  value={currentReading}
+                  onChangeText={(val)=>setcurrentReading(val)} 
+                />
                 <View  style={styles.buttonContainer}>
                     <CustomButton label={'Confirm Submit'} onPress={()=>submitPostValue()} />
                     <CustomButton bgColor={'#A8A9A8'} label={'Close'} onPress={()=>{setshowModal(false)}} />
@@ -119,6 +135,7 @@ const styles = StyleSheet.create({
   modalView: {
     flex: 1, 
     width: '90%',
+    maxHeight: '70%', 
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,

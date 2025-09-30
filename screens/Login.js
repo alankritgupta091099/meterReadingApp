@@ -65,6 +65,7 @@ const Login = () => {
         <InputField
           label={'User ID'}
           keyboardType="email-address"
+          value={user}
           onChangeText={(val)=>setUser(val)}
         />
 
@@ -72,6 +73,7 @@ const Login = () => {
           label={'Password'}
           inputType="password"
           fieldButtonLabel={"Forgot?"}
+          value={password}
           onChangeText={(val)=>setPassword(val)}
         />
         

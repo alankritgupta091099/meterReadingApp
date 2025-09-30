@@ -55,6 +55,8 @@ function GetMeterReading({navigation}){
                 setdisplayData(res.data);
                 setshowModal(true);
             } else {
+                setdisplayData(res.data);
+                setshowModal(true);
                 showWarning(res.data.Message);
             }
           })
@@ -83,13 +85,13 @@ function GetMeterReading({navigation}){
                 Get Meter Reading
                 </Text>
 
-                <InputField label={'Project Name * '} onChangeText={(val)=>setprojectName(val)} />
+                <InputField label={'Project Name * '} value={projectName} onChangeText={(val)=>setprojectName(val)} />
 
-                <InputField label={'Unit No. * '} onChangeText={(val)=>setunitNo(val)}/>
+                <InputField label={'Unit No. * '} value={unitNo} onChangeText={(val)=>setunitNo(val)}/>
 
-                <InputField label={'Customer * '} onChangeText={(val)=>setcustomer(val)}/>
+                <InputField label={'Customer * '} value={customer} onChangeText={(val)=>setcustomer(val)}/>
 
-                <InputField label={'Meter No. * '} onChangeText={(val)=>setmeterNo(val)}/>
+                <InputField label={'Meter No. * '} value={meterNo} onChangeText={(val)=>setmeterNo(val)}/>
                 
                 <CustomButton label={displayData ? 'Reset' : 'Get value'} onPress={()=>{ displayData ? resetFormData() : submitGetValue() }} />
             </View>

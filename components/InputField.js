@@ -8,7 +8,8 @@ export default function InputField({
   keyboardType,
   fieldButtonLabel,
   fieldButtonFunction,
-  onChangeText
+  onChangeText,
+  value
 }) {
   return (
     <View
@@ -31,6 +32,7 @@ export default function InputField({
           style={{flex: 1, paddingVertical: 0}}
           secureTextEntry={true}
           onChangeText={onChangeText}
+          value={value !== undefined && value !== null ? String(value) : undefined}
         />
         </>
       ) : (
@@ -43,6 +45,7 @@ export default function InputField({
           keyboardType={keyboardType}
           style={{flex: 1, paddingVertical: 0}}
           onChangeText={onChangeText}
+          value={value !== undefined && value !== null ? String(value) : undefined}
         />
         </>
       )}
