@@ -16,6 +16,7 @@ import Loader from '../components/Loader';
 import { showWarning, showError } from '../components/Alert';
 
 import { UserContext } from '../context/userContext';
+import { useEffect } from 'react';
 
 function GetMeterReading({navigation}){
 
@@ -68,6 +69,11 @@ function GetMeterReading({navigation}){
             setLoading(false);
           });
     }
+
+    useEffect(()=>{
+
+    }, [projectName, unitNo, customer, displayData])
+
     return (
         <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
         <ScrollView
@@ -93,7 +99,14 @@ function GetMeterReading({navigation}){
 
                 <InputField label={'Meter No. * '} value={meterNo} onChangeText={(val)=>setmeterNo(val)}/>
                 
-                <CustomButton label={displayData ? 'Reset' : 'Get value'} onPress={()=>{ displayData ? resetFormData() : submitGetValue() }} />
+                <View style={{ flexDirection: 'row', height: '100%' }}>
+                    <View style={{ flex: 1 }}>
+                        <CustomButton label={'Reset'} onPress={resetFormData} />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <CustomButton label={'Get value'} onPress={submitGetValue} />
+                    </View>
+                </View>
             </View>
             {
                 showModal ? <SubmitReadingModal showModal={showModal} setshowModal={setshowModal} displayData={displayData}/> : <></>
